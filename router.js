@@ -44,11 +44,31 @@ router.post('/students/new',function(req,res){
 })
 
 router.get('/students/edit',function(req,res){
-
+  // 1.在客户端的列表页中处理链接问题（需要id参数）
+  // 2.获取要编辑的学生的 id
+  // 3.渲染编辑页面
+  //    根据 id 把同学信息查出来
+  //    根据模板引擎渲染页面
+  Student.findById(parseInt(req.query.id),function(err,student){
+    if(err){
+      return res.status(500).send('Server error')
+    }
+    res.render('edit.html',{
+      student:student
+    })
+  })
 })
 
 router.post('/students/edit',function(req,res){
-
+  // 1.获取表单数据
+  // 2.更新
+  // 3.发送响应
+  Student.updateById(req.body,function(err){
+    if(err){
+      return res.status(500).send('Server error')
+    }
+    res.redirect('/students')
+  })
 })
 
 router.get('/students/delete',function(req,res){
